@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+
+  pg-db:
+    image: postgres:15
+    container_name: pg-db
+    restart: on-failure
+    ports:
+      - 0.0.0.0:5432:5432
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: freight_cargo
+      POSTGRES_USER: freight_cargo
+      POSTGRES_PASSWORD: admin@123
+    networks:
+      - freight
+  db-ui:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_freight
+    ports:
+    - 9999:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+
+    networks:
+      - freight
+
+networks:
+  freight:
+    driver: bridge
+
+volumes:
+  pg-data:
+
