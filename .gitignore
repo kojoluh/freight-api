@@ -1,0 +1,13 @@
+# Ignore Docker Compose file
+docker-compose.yaml
+
+# Ignore Maven build directory
+target/
+target/**
+
+
+# Ignore logs
+*.log
+
+# Ignore OS-specific files
+.DS_Store
