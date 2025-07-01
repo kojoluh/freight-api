@@ -1,30 +1,34 @@
 package com.fkluh.freight.v1.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.fkluh.freight.v1.model.dto.CustomPage;
 import com.fkluh.freight.v1.model.dto.PackageDto;
 import com.fkluh.freight.v1.model.dto.PackageUpdateDto;
 import com.fkluh.freight.v1.service.PackageServiceV1Impl;
-import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
+
+@SecurityRequirement(name = "bearerAuth")
 @RestController("packageControllerV1")
 @RequestMapping("/api/v1/packages")
 public class PackageControllerV1 {
 
+    @Autowired
     private PackageServiceV1Impl service;
-
-    public PackageControllerV1(PackageServiceV1Impl service) {}
 
     @Operation(summary = "Add a new package. Creates a new package in the system.\n"
         + "The package must have a tracking number, email, recipient postcode, and estimated delivery date.\n"

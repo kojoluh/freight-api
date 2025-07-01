@@ -1,14 +1,19 @@
 package com.fkluh.freight.v1.mapper;
 
-import com.fkluh.freight.v1.model.dto.PackageDto;
-import com.fkluh.freight.v1.model.Package;
-import com.fkluh.freight.v1.model.DeliveryStatusEnum;
-import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Import;
 
+import com.fkluh.freight.v1.config.TestJwtDecoderConfig;
+import com.fkluh.freight.v1.model.DeliveryStatusEnum;
+import com.fkluh.freight.v1.model.Package;
+import com.fkluh.freight.v1.model.dto.PackageDto;
+
+@Import(TestJwtDecoderConfig.class)
 class PackageMapperTest {
 
     private final PackageMapper mapper = new PackageMapper();

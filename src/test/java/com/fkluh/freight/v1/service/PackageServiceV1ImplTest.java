@@ -1,41 +1,44 @@
 package com.fkluh.freight.v1.service;
 
-import com.fkluh.freight.v1.model.dto.CustomPage;
-import com.fkluh.freight.v1.model.dto.PackageDto;
-import com.fkluh.freight.v1.model.dto.PackageUpdateDto;
-import com.fkluh.freight.v1.model.dto.PostcodeByCountDto;
-import com.fkluh.freight.v1.exception.PackageAlreadyExistsException;
-import com.fkluh.freight.v1.exception.PackageNotFoundException;
-import com.fkluh.freight.v1.exception.PackageValidationException;
-import com.fkluh.freight.v1.mapper.PackageMapper;
-import com.fkluh.freight.v1.model.Package;
-import com.fkluh.freight.v1.model.DeliveryStatusEnum;
-import com.fkluh.freight.v1.repository.PackageRepositoryV1;
-import com.fkluh.freight.v1.service.strategy.filter.FilterStrategy;
-import com.fkluh.freight.v1.service.strategy.track.TrackStrategy;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.never;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
+import com.fkluh.freight.v1.config.TestJwtDecoderConfig;
+import com.fkluh.freight.v1.exception.PackageAlreadyExistsException;
+import com.fkluh.freight.v1.exception.PackageNotFoundException;
+import com.fkluh.freight.v1.exception.PackageValidationException;
+import com.fkluh.freight.v1.mapper.PackageMapper;
+import com.fkluh.freight.v1.model.DeliveryStatusEnum;
+import com.fkluh.freight.v1.model.Package;
+import com.fkluh.freight.v1.model.dto.CustomPage;
+import com.fkluh.freight.v1.model.dto.PackageDto;
+import com.fkluh.freight.v1.model.dto.PackageUpdateDto;
+import com.fkluh.freight.v1.model.dto.PostcodeByCountDto;
+import com.fkluh.freight.v1.repository.PackageRepositoryV1;
+import com.fkluh.freight.v1.service.strategy.filter.FilterStrategy;
+import com.fkluh.freight.v1.service.strategy.track.TrackStrategy;
+
+@Import(TestJwtDecoderConfig.class)
 class PackageServiceV1ImplTest {
 
     @Mock

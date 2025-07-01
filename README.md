@@ -72,3 +72,41 @@ The application follows a layered architecture:
 
 ## Acknowledgements
 Special thanks to the open-source community for providing libraries and tools that made this project possible.
+
+---
+
+## 🚀 Demo Deployment
+
+### Local Demo with Docker Compose
+
+1. Build and run the app:
+   ```sh
+   docker-compose up --build
+   ```
+2. Access Swagger UI at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
+**Demo Credentials:**
+- Username: `admin`
+- Password: `Mine@admin-975`
+
+### Online Demo Hosting (Render.com Example)
+
+1. Sign up at [Render.com](https://render.com/)
+2. Create a new Web Service:
+   - Connect your GitHub repo
+   - Choose Docker as the environment
+   - Set the port to `8080`
+   - Set environment variables:
+     - `app.jwt.secret=demo-jwt-secret-please-change`
+     - `app.cors.allowed-origins=*`
+3. Deploy and wait for the build to finish
+4. Visit your public URL (e.g., `https://your-app.onrender.com/swagger-ui.html`)
+
+**Usage:**
+- Use `/api/v1/auth/login` to get a JWT token
+- Click "Authorize" in Swagger UI and paste the token
+- Try any secured endpoint
+
+> **Note:** This is a public demo. Do not use for production or sensitive data.
+
+---

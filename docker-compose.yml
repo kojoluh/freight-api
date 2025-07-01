@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  freight-cargo:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - app.jwt.secret=demo-jwt-secret-please-change
+      - app.cors.allowed-origins=*
+    restart: unless-stopped 

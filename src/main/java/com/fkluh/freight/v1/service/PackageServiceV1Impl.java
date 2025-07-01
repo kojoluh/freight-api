@@ -1,37 +1,38 @@
 package com.fkluh.freight.v1.service;
 
-import com.fkluh.freight.v1.exception.PackageAlreadyExistsException;
-import com.fkluh.freight.v1.model.dto.CustomPage;
-import com.fkluh.freight.v1.model.dto.PackageDto;
-import com.fkluh.freight.v1.model.dto.PostcodeByCountDto;
-import com.fkluh.freight.v1.exception.ErrorMessages;
-import com.fkluh.freight.v1.exception.PackageNotFoundException;
-import com.fkluh.freight.v1.exception.PackageValidationException;
-import com.fkluh.freight.v1.mapper.PackageMapper;
-import com.fkluh.freight.v1.model.Package;
-import com.fkluh.freight.v1.model.DeliveryStatusEnum;
-import com.fkluh.freight.v1.repository.PackageRepositoryV1;
-import com.fkluh.freight.v1.service.strategy.filter.FilterStrategyByDeliveryDate;
-import com.fkluh.freight.v1.service.strategy.filter.FilterStrategy;
-import com.fkluh.freight.v1.service.strategy.filter.FilterStrategyByPostcode;
-import com.fkluh.freight.v1.service.strategy.filter.FilterStrategyByStatus;
-import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByAllParameters;
-import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByEmailAndPostcode;
-import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByEmail;
-import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByPostcode;
-import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByTrackingNumber;
-import com.fkluh.freight.v1.service.strategy.track.TrackStrategy;
-import com.fkluh.freight.v1.util.ValidationUtil;
-import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
+import com.fkluh.freight.v1.exception.ErrorMessages;
+import com.fkluh.freight.v1.exception.PackageAlreadyExistsException;
+import com.fkluh.freight.v1.exception.PackageNotFoundException;
+import com.fkluh.freight.v1.exception.PackageValidationException;
+import com.fkluh.freight.v1.mapper.PackageMapper;
+import com.fkluh.freight.v1.model.DeliveryStatusEnum;
+import com.fkluh.freight.v1.model.Package;
+import com.fkluh.freight.v1.model.dto.CustomPage;
+import com.fkluh.freight.v1.model.dto.PackageDto;
+import com.fkluh.freight.v1.model.dto.PostcodeByCountDto;
+import com.fkluh.freight.v1.repository.PackageRepositoryV1;
+import com.fkluh.freight.v1.service.strategy.filter.FilterStrategy;
+import com.fkluh.freight.v1.service.strategy.filter.FilterStrategyByDeliveryDate;
+import com.fkluh.freight.v1.service.strategy.filter.FilterStrategyByPostcode;
+import com.fkluh.freight.v1.service.strategy.filter.FilterStrategyByStatus;
+import com.fkluh.freight.v1.service.strategy.track.TrackStrategy;
+import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByAllParameters;
+import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByEmail;
+import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByEmailAndPostcode;
+import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByPostcode;
+import com.fkluh.freight.v1.service.strategy.track.TrackStrategyByTrackingNumber;
+import com.fkluh.freight.v1.util.ValidationUtil;
+
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -56,6 +57,9 @@ public class PackageServiceV1Impl implements PackageServiceV1 {
         Package pkg = mapper.packageDtoToEntity(packageDto);
         validateTrackingNumberExists(pkg.getTrackingNumber());
         log.info("Adding package with tracking number: {}", pkg.getTrackingNumber());
+        if (pkg.getActualDeliveryDate() != null) {
+            pkg.setStatus(DeliveryStatusEnum.DELIVERED);
+        }
         if (pkg.getStatus() == null) {
             pkg.setStatus(DeliveryStatusEnum.IN_TRANSIT);
         }
@@ -138,6 +142,7 @@ public class PackageServiceV1Impl implements PackageServiceV1 {
      */
     @Override
     public void removePackage(String trackingNumber) {
+        validateTrackingNumberNotExists(trackingNumber);
         repository.deleteById(trackingNumber);
     }
 
