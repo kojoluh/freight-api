@@ -31,8 +31,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build and test
-        run: ./mvnw clean verify
-        #run: ./mvnw clean verify -Dspring.profiles.active=dev
+        run: ./mvnw clean verify -Dspring.profiles.active=dev
 
       - name: Generate JaCoCo coverage report
         run: ./mvnw jacoco:report
