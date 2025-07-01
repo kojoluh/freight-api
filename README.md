@@ -81,7 +81,7 @@ Special thanks to the open-source community for providing libraries and tools th
 
 1. Build and run the app:
    ```sh
-   APP_JWT_SECRET=Freight-256-bit-secret-Cargo-256-bit-secret docker-compose up --build
+   PORT=10000 APP_JWT_SECRET=Freight-256-bit-secret-Cargo-256-bit-secret docker-compose up --build
    ```
 2. Access Swagger UI at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
@@ -95,7 +95,7 @@ Special thanks to the open-source community for providing libraries and tools th
 2. Create a new Web Service:
    - Connect your GitHub repo
    - Choose Docker as the environment
-   - Set the port to `8080`
+   - Set the port to `8080` but on Render its 10000
    - Set environment variables:
      - `app.jwt.secret=Freight-256-bit-secret-Cargo-256-bit-secret`
      - `app.cors.allowed-origins=*`
