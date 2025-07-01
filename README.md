@@ -75,7 +75,7 @@ Special thanks to the open-source community for providing libraries and tools th
 
 ---
 
-## 🚀 Demo Deployment
+## Demo Deployment
 
 ### Local Demo with Docker Compose
 

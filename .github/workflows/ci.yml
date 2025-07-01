@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      app.jwt.secret: demo-jwt-secret-please-change
+      app.cors.allowed-origins: "*"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,6 +32,7 @@ jobs:
 
       - name: Build and test
         run: ./mvnw clean verify
+        #run: ./mvnw clean verify -Dspring.profiles.active=dev
 
       - name: Generate JaCoCo coverage report
         run: ./mvnw jacoco:report
