@@ -4,6 +4,7 @@ docker-compose.yaml
 # Ignore Maven build directory
 target/
 target/**
+target
 
 
 # Ignore logs
